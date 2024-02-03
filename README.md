@@ -38,6 +38,7 @@ To explore each project, navigate to the respective project directory and follow
 
 ## Student Information
 
+- **Name**: Murrel Venlo
 - **Student Number**: r0781309
 - **Field of Study**: Application Development
 - **Teacher**: Jeroen Verbruggen
