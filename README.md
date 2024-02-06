@@ -16,16 +16,16 @@ This repository serves as a showcase of projects completed as part of the Person
 
 1. ### Advanced Components
    Description: Introduction to Vue.js components and dynamic rendering.
-   Link to README.md
+   [Link to README.md](https://github.com/murrelvenlo/vuejs-projects-ppp/blob/main/dynamic-components/README.md)
 1. ### Transitions & Animations
    Description: Implementation of transitions and animations in Vue.js applications.
-   Link to README.md
+   [Link to README.md](https://github.com/murrelvenlo/vuejs-projects-ppp/blob/main/animations/README.md)
 1. ### Quiz App
    Description: Interactive quiz application built with Vue.js.
-   Link to README.md
+   [Link to README.md](https://github.com/murrelvenlo/vuejs-projects-ppp/blob/main/quiz-app/README.md)
 1. ### Music App
    Description: Comprehensive music application with state management, form validation, authentication, and routing functionalities.
-   Link to README.md
+   [Link to README.md](https://github.com/murrelvenlo/vuejs-projects-ppp/blob/main/music-app/README.md)
 
 ## Getting Started
 
