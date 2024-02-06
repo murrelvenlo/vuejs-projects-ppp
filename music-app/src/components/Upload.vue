@@ -30,7 +30,7 @@
             <div
               class="transition-all progress-bar bg-blue-400"
               :class="'bg-blue-400'"
-              :style="{ with: upload.current_progress + '%' }"
+              :style="{ width: upload.current_progress + '%' }"
             ></div>
           </div>
         </div>
@@ -65,14 +65,16 @@ export default {
         const songsRef = storageRef.child(`/songs/${file.name}`) // pass in the dir where to upload the song --> 'music-14468.appspot.com/songs/example.mp3'
         const task = songsRef.put(file)
 
-        this.uploads.push({
-          task,
-          current_progress: 0,
-          name: file.name
-        })
+        const uploadIndex =
+          this.uploads.push({
+            task,
+            current_progress: 0,
+            name: file.name
+          }) - 1
 
         task.on('state_changed', (snapshot) => {
           const progess = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          this.uploads[uploadIndex].current_progress = progess
         })
       })
       console.log(files)
