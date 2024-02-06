@@ -10,6 +10,7 @@ export default defineStore('user', {
     async register(values) {
       const userCred = await auth.createUserWithEmailAndPassword(values.email, values.password)
 
+      // the doc.set fu allows you to assign a custom id to the document
       await usersCollection.doc(userCred.user.uid).set({
         name: values.name,
         email: values.email,
