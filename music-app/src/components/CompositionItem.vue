@@ -12,32 +12,38 @@
         <i class="fa fa-pencil-alt"></i>
       </button>
     </div>
-    <div v-show="showForm">
-      <form>
+    <div>
+      <vee-form v-show="showForm" :validation-schema="schema" :initial-values="song" @submit="edit">
         <div class="mb-3">
           <label class="inline-block mb-2">Song Title</label>
-          <input
+          <vee-field
             type="text"
+            name="modified_name"
             class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
             placeholder="Enter Song Title"
           />
+          <ErrorMessage class="text-red-600" name="modified_name" />
         </div>
         <div class="mb-3">
           <label class="inline-block mb-2">Genre</label>
-          <input
+          <vee-field
             type="text"
+            name="genre"
             class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
             placeholder="Enter Genre"
           />
+          <ErrorMessage class="text-red-600" name="genre" />
         </div>
         <button type="submit" class="py-1.5 px-3 rounded text-white bg-green-600">Submit</button>
         <button type="button" class="py-1.5 px-3 rounded text-white bg-gray-600">Go Back</button>
-      </form>
+      </vee-form>
     </div>
   </div>
 </template>
 
 <script>
+import { ErrorMessage } from 'vee-validate'
+
 export default {
   name: 'CompositionItem',
   props: {
@@ -48,8 +54,18 @@ export default {
   },
   data() {
     return {
-      showForm: false
+      showForm: false,
+      schema: {
+        modified_name: 'required',
+        genre: 'alpha_spaces'
+      }
     }
-  }
+  },
+  methods: {
+    edit() {
+      console.log('Song editted')
+    }
+  },
+  components: { ErrorMessage }
 }
 </script>
