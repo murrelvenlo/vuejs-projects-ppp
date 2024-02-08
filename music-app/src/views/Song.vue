@@ -165,6 +165,16 @@ export default {
       })
     }
   },
+  watch: {
+    // a watcher is a function that tracks changes of properties in a component
+    sort(newVal) {
+      this.$router.push({
+        query: {
+          sort: newVal
+        }
+      })
+    }
+  },
   components: { ErrorMessage }
 }
 </script>
