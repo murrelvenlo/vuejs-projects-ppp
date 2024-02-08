@@ -54,14 +54,36 @@ export default {
 
   // Lifecycle
   async created() {
-    const snapshots = await songsCollection.get()
+    this.getSongs()
 
-    snapshots.forEach((document) => {
-      this.songs.push({
-        docId: document.id,
-        ...document.data()
+    // adding scrol event to manage infinite scroll
+    window.addEventListener('scroll', this.handleScroll)
+  },
+  beforeUnmount() {
+    // we use this lifecycle to remove the event-listener
+    window.removeEventListener('scroll', this.handleScroll)
+  },
+  methods: {
+    handleScroll() {
+      const { scrollTop, offsetHeight } = document.documentElement // destructure document.docEl
+      const { innerHeight } = window // destructure the window-object
+      // the destructuring is not necessary, but good for readability
+      const bottomOfWindow = Math.round(scrollTop) + innerHeight === offsetHeight
+
+      if (bottomOfWindow) {
+        console.log('Bottom of window')
+      }
+    },
+    async getSongs() {
+      const snapshots = await songsCollection.get()
+
+      snapshots.forEach((document) => {
+        this.songs.push({
+          docId: document.id,
+          ...document.data()
+        })
       })
-    })
+    }
   }
 }
 </script>
