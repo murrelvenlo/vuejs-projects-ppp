@@ -36,7 +36,7 @@
         >
           {{ comment_alert_message }}
         </div>
-        <vee-form :validation-schema="schema" @submit="addComment">
+        <vee-form :validation-schema="schema" @submit="addComment" v-if="userLoggedIn">
           <vee-field
             as="textarea"
             name="comment"
@@ -140,8 +140,10 @@
 </template>
 
 <script>
-import { songsCollection } from '@/includes/firebase'
+import { songsCollection, auth, commentsCollection } from '@/includes/firebase'
 import { ErrorMessage } from 'vee-validate'
+import { mapState } from 'pinia'
+import useUserStore from '@/stores/user'
 
 export default {
   name: 'Song',
@@ -149,13 +151,16 @@ export default {
     return {
       song: {},
       schema: {
-        comment: 'requierd|min:3'
+        comment: 'required|min:3'
       },
       comment_in_submission: false,
       comment_show_alert: false,
       comment_alert_variant: 'bg-blue-500',
       comment_alert_message: 'Please wait! Your comment is being submitted.'
     }
+  },
+  computed: {
+    ...mapState(useUserStore, ['userLoggedIn'])
   },
   async created() {
     const docSnapshot = await songsCollection.doc(this.$route.params.id).get()
@@ -166,11 +171,27 @@ export default {
     this.song = docSnapshot.data()
   },
   methods: {
-    async addComment(values) {
+    async addComment(values, { resetForm }) {
       this.comment_in_submission = true
       this.comment_show_alert = true
       this.comment_alert_variant = 'bg-blue-500'
       this.comment_alert_message = 'Please wait! Your comment is being submitted.'
+
+      const comment = {
+        content: values.comment,
+        datePosted: new Date().toString(),
+        sid: this.$route.params.id,
+        name: auth.currentUser.displayName, // the person who submitted the comment
+        uid: auth.currentUser.uid // the person who submitted the comment
+      }
+
+      await commentsCollection.add(comment)
+
+      this.comment_in_submission = false
+      this.comment_alert_variant = 'bg-green-500'
+      this.comment_alert_message = 'Comment added!'
+
+      resetForm()
     }
   },
   components: { ErrorMessage }
